@@ -5,7 +5,7 @@ from rfdetr import RFDETRBase
 
 
 
-def detect_video(
+def video_detection(
     input_path,
     output_path,
     infer_width=960,
@@ -35,14 +35,18 @@ def detect_video(
 
     orig_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     orig_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    fps = cap.get(cv2.CAP_PROP_FPS) # or 30
+    fps = cap.get(cv2.CAP_PROP_FPS) or 30
     frame_size = (orig_w, orig_h)
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_path, fourcc, fps, frame_size)
 
     # Background subtractor for motion detection
-    backSub = cv2.createBackgroundSubtractorMOG2(history=500, varThreshold=50, detectShadows=False)
+    backSub = cv2.createBackgroundSubtractorMOG2(
+        history=500, 
+        varThreshold=50, 
+        detectShadows=False
+        )
 
     frame_index = 0
 
@@ -148,7 +152,7 @@ def detect_video(
 # RUN 
 
 if __name__ == "__main__":
-    detect_video(
+    video_detection(
         input_path="",
         output_path=""
         )
