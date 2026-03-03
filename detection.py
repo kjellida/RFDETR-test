@@ -152,7 +152,5 @@ def video_detection(
 # RUN 
 
 if __name__ == "__main__":
-    video_detection(
-        input_path="",
-        output_path=""
-        )
+    video_detection()
+        
