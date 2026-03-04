@@ -5,6 +5,8 @@ import numpy as np
 import xml.etree.ElementTree as ET
 from rfdetr import RFDETRBase
 
+
+#link : https://www.kaggle.com/datasets/swjtuziwei/fbd-sv-2024
 # ----------------------
 # Step 1: Parse ground truth XMLs
 # ----------------------
