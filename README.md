@@ -1,3 +1,4 @@
+![Status](https://img.shields.io/badge/status-work%20in%20progress-yellow)
 # Adaptive Inference for UAV Object Detection using RF-DETR
 
 This project implements adaptive inference for detection of UAVs using RF-DETR.
