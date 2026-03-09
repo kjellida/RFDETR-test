@@ -8,8 +8,8 @@ from rfdetr import RFDETRBase
 def video_detection(
     input_path,
     output_path,
-    infer_width=960,
-    infer_height=540,
+    infer_width=560, #unsure on resizing
+    infer_height=560,
     conf_threshold=0.2,
     full_sweep_interval=10,
     max_rois=3,
@@ -62,21 +62,13 @@ def video_detection(
         # Motion detection
 
         fgMask = backSub.apply(frame)
-        _, thresh = cv2.threshold(fgMask.copy(), 200, 255, cv2.THRESH_BINARY)
+        _, thresh = cv2.threshold(fgMask.copy(), 200, 255, cv2.THRESH_BINARY) #only needed if detect shadows = true in backsub
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         dilated = cv2.dilate(thresh, kernel, iterations=2)
         contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        '''rois = []
-        for contour in contours:
-            if cv2.contourArea(contour) < MAX_CONTOUR_AREA:  # filter noise
-                continue
-            x, y, w, h = cv2.boundingRect(contour)
-            rois.append((x, y, w, h))'''
 
-
-        rois = [cv2.boundingRect(contour) for contour in contours if cv2.contourArea(contour) >= max_contour_area] #check if correct
-
+        rois = [cv2.boundingRect(contour) for contour in contours if cv2.contourArea(contour) >= max_contour_area]
 
         # Decide inference mode
         
@@ -115,7 +107,7 @@ def video_detection(
                 if roi.size == 0:
                     continue
                 # Resize ROI for speed
-                scale = 320 / max(w, h)
+                scale = 320 / max(w, h) #unsure on sizing
                 small_w, small_h = int(w*scale), int(h*scale)
                 roi_small = cv2.resize(roi, (small_w, small_h))
                 rgb_roi = cv2.cvtColor(roi_small, cv2.COLOR_BGR2RGB)
